@@ -1,0 +1,259 @@
+#include <iostream>
+
+using namespace std;
+
+void title();
+void backToMenu();
+void exitMessage();
+void mainMenu();
+void accInfo();
+void accBalance();
+void cashWithdrawal();
+void cashWithdrawalOpt();
+void changePin();
+void welcome();
+
+int opt, pin = 1234, cPin, nPin;
+double balance = 100000, withdrawAmount;
+bool retryOpt = false, wrongOpt = false;
+
+void title() {
+	cout << "\n-----------------------------------------------------------" << endl;
+	cout << "------------------- <<<< ABCD BANK >>>> -------------------" << endl;
+	cout << "-----------------------------------------------------------\n\n" << endl;
+}
+
+void accInfo() {
+	system("cls");
+	title();
+	cout << "------------ << Account Information >> ------------\n" << endl;
+	cout << "Name   : Heoughten\n"
+		<< "Age    : 20y\n"
+		<< "Branch : Homagama Branch\n"
+		<< "Created: 2020\n" << endl;
+	backToMenu();
+}
+
+void backToMenu() {
+	cout << "---------------------------------------------------\n" << endl;
+	cout << "Return to Main Menu\n"
+		<< "1. Yes\n"
+		<< "2. No\n" << endl;
+	cout << "Option: ";
+	cin >> opt;
+
+	if (opt == 1) {
+		system("cls");
+		title();
+		mainMenu();
+	}
+	else if (opt == 2) {
+		exitMessage();
+	}
+	else {
+		cout << "\n ---------------" << endl;
+		cout << "| Invalid Input |" << endl;
+		cout << " ---------------\n" << endl;
+		backToMenu();
+	}
+}
+
+void exitMessage() {
+	cout << "\n --------------------------------" << endl;
+	cout << "| Thank you for Banking with us! |" << endl;
+	cout << " --------------------------------\n" << endl;
+	exit(0);
+}
+
+void accBalance() {
+	system("cls");
+	title();
+	cout << "-------------- << Account Balance >> --------------\n" << endl;
+	cout << "Your Account Balance is: Rs. " << balance << "\n" << endl;
+	backToMenu();
+}
+
+void cashWithdrawal() {
+	system("cls");
+	title();
+	cout << "-------------- << Cash Withdrawal >> --------------\n" << endl;
+	cout << "Enter the Amount (min Rs. 500, max Rs. 90000) Rs. ";
+	cin >> withdrawAmount;
+	cout << endl;
+
+	if (withdrawAmount > balance) {
+		cout << "---------------------------------------------------\n" << endl;
+		cout << "Insufficient Balance!\n" << endl;
+		cashWithdrawalOpt();
+	}
+	else if (withdrawAmount < 500) {
+		cout << "---------------------------------------------------\n" << endl;
+		cout << "Invalid Input! Minimum Withdraw = Rs. 500\n" << endl;
+		cashWithdrawalOpt();
+	}
+	else if (withdrawAmount > 90000) {
+		cout << "---------------------------------------------------\n" << endl;
+		cout << "Invalid Input! Maximum Withdraw (at once) = Rs. 90000\n" << endl;
+		cashWithdrawalOpt();
+	}
+	else {
+		balance = balance - withdrawAmount;
+		cout << "---------------------------------------------------\n" << endl;
+		cout << "Transaction Successful! , Please Take your Cash!\n" << endl;
+		cout << "Your Remaining Account Balance is: Rs. " << balance << "\n" << endl;
+		backToMenu();
+	}
+}
+
+void cashWithdrawalOpt() {
+	cout << "---------------------------------------------------\n" << endl;
+	cout << "Select an Option!\n"
+		<< "1. Re-Enter the Amount\n"
+		<< "2. Check Account Balance\n"
+		<< "3. Return to Main Menu\n" << endl;
+	cout << "Option: ";
+	cin >> opt;
+	
+	if (opt == 1) {
+		cashWithdrawal();
+	}
+	else if (opt == 2) {
+		accBalance();
+	}
+	else if (opt == 3) {
+		mainMenu();
+	}
+	else {
+		cout << "\n ---------------" << endl;
+		cout << "| Invalid Input |" << endl;
+		cout << " ---------------\n" << endl;
+		cashWithdrawalOpt();
+	}
+}
+
+void changePin(){
+	system("cls");
+	title();
+	cout << "------------- << Change Pin Number >> -------------\n" << endl;
+	cout << "Enter Your Current Pin Number: ";
+	cin >> cPin;
+	cout << endl;
+
+	if (cPin == pin) {
+		cout << "Enter a New Pin Number: ";
+		cin >> nPin;
+		pin = nPin;
+		cout <<"\n ----------------------------------\n"
+			<< "| Pin Number Changed Successfully! |\n"
+			<< " ----------------------------------\n" << endl;
+		backToMenu();
+	}
+	else {
+		cout << "---------------------------------------------------\n" << endl;
+		cout << "Invalid Pin Number!\n" << endl;
+		backToMenu();
+	}
+}
+
+void mainMenu() {
+	system("cls");
+	title();
+	cout << "----------------- << Main Menu >> -----------------\n" << endl;
+	cout << "1. Account Information\n"
+		<< "2. Account Balance\n"
+		<< "3. Cash Withdrawal\n"
+		<< "4. Change Pin Number\n"
+		<< "5. Exit\n" << endl;
+	cout << "Option: ";
+	cin >> opt;
+	cout << endl;
+
+	if (opt == 1) {
+		accInfo();
+	}
+	else if (opt == 2) {
+		accBalance();
+	}
+	else if (opt == 3) {
+		cashWithdrawal();
+	}
+	else if (opt == 4) {
+		changePin();
+	}
+	else if (opt == 5) {
+		exit(0);
+	}
+	else {
+		cout << "\n ---------------" << endl;
+		cout << "| Invalid Input |" << endl;
+		cout << " ---------------\n" << endl;
+		system("pause");
+		mainMenu();
+
+	}
+}
+
+void welcome() {
+	title();
+	cout << "------------------- << LOGIN >> -------------------\n" << endl;
+	cout << "Welcome USER!\n" << endl;
+	cout << "Enter your Pin Number: ";
+	cin >> cPin;
+
+	if (cPin == pin) {
+		mainMenu();
+	}
+	else {
+		if (retryOpt == false) {
+			cout << "\n -------------------- " << endl;
+			cout << "| Invalid Pin Number |" << endl;
+			cout << " --------------------\n" << endl;
+
+			loop: // goto function
+			cout << "Select an Option!\n" << endl;
+			cout << "1. Retry\n"
+				<< "2. Exit\n" << endl;
+			cout << "Option: ";
+			cin >> opt;
+			if (opt == 1) {
+				system("cls");
+				retryOpt = true;
+				welcome();
+			}
+			else if (opt == 2) {
+				exitMessage();
+			}
+			else {
+				cout << "\n ---------------" << endl;
+				cout << "| Invalid Input |" << endl;
+				cout << " ---------------\n" << endl;
+				goto loop;
+			}
+
+		}
+			for (int counter = 2; counter >= 1; --counter)
+			{
+				cout << "\n -------------------- " << endl;
+				cout << "| Invalid Pin Number |" << endl;
+				cout << " --------------------\n" << endl;
+				cout << counter << " Attempts Left!\n" << endl;
+				cout << "---------------------------------------------------\n" << endl;
+				cout << "Re-Enter Pin Number: ";
+				cin >> cPin;
+				if (cPin == pin) {
+					mainMenu();
+				}
+				if (counter == 1) {
+					cout << "\n -----------------------------------------------------------" << endl;
+					cout << "| Your Card Disabled For Security Reasons! Contact Support! |" << endl;
+					cout << " -----------------------------------------------------------" << endl;
+					exit(0);
+				}
+		}
+	}
+}
+
+int main() {
+	welcome();
+	return 0;
+}
